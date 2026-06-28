@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Fabián y Elisa</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            color: #4a4a4a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+        .screen {
+            display: none;
+            position: absolute;
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            animation: fadeIn 0.8s ease forwards;
+        }
+        .screen.active { display: block; }
+        h1 { font-family: 'Great Vibes', cursive; color: #d4af37; font-size: 3.5rem; margin-bottom: 15px; }
+        h2 { font-family: 'Great Vibes', cursive; color: #b8972c; font-size: 2.5rem; margin-bottom: 10px; }
+        p { font-size: 1.05rem; line-height: 1.8; color: #5a5a5a; margin-bottom: 25px; font-weight: 300; }
+        .hint { font-size: 0.85rem; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Animación Canam */
+        .canam-btn {
+            width: 140px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: block;
+            margin: 0 auto;
+        }
+        .canam-btn:active { transform: scale(0.95); }
+        .drive-out { animation: driveAway 1s ease-in forwards; }
+
+        /* Estilos Cajas */
+        .box-container { position: relative; height: 180px; margin-bottom: 15px; }
+        .gift-box {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+        }
+        .gift-box:hover { transform: translateX(-50%) scale(1.05); }
+        
+        /* Tamaños decrecientes de cajas */
+        #box1 { width: 160px; }
+        #box2 { width: 130px; }
+        #box3 { width: 100px; }
+        #box4 { width: 80px; }
+        #box5 { width: 55px; }
+
+        /* Imagen Final */
+        .final-img { width: 100%; max-height: 60vh; object-fit: contain; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes driveAway { to { transform: translateX(300px) scale(0.8); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" src="musica.mp3" loop></audio>
+
+    <!-- PANTALLA 1: Bienvenida -->
+    <div class="screen active" id="s1">
+        <h1>Fabián y Elisa</h1>
+        <p>El amor verdadero no se busca, se construye día a día con miradas de complicidad, risas compartidas y la certeza de que el mundo es un lugar mejor cuando están juntos. Hoy celebramos su unión y el hermoso camino que recorren de la mano.</p>
+        <p class="hint">Toquen el Canam para iniciar</p>
+        <img src="canam.png" class="canam-btn" onclick="nextWithDrive(1)">
+    </div>
+
+    <!-- PANTALLA 2: Invitación -->
+    <div class="screen" id="s2">
+        <h2>La Aventura</h2>
+        <p>Cada gran historia de amor es una aventura única, llena de paisajes inolvidables y caminos emocionantes por descubrir. Queremos hacerles un regalo un poco especial para acompañar esta hermosa ruta que están trazando juntos.</p>
+        <p class="hint">¡Presiónanos para comenzar esta aventura!</p>
+        <img src="canam.png" class="canam-btn" onclick="nextWithDrive(2)">
+    </div>
+
+    <!-- PANTALLA 3: Introducción al regalo -->
+    <div class="screen" id="s3">
+        <h2>Con Mucho Amor</h2>
+        <p>Porque los momentos más valiosos de la vida no se miden en el tiempo, sino en las huellas que dejan en nuestro corazón. Es por esto que les queremos regalar algo que les permita volver a vivir sus sonrisas una y otra vez...</p>
+        <p class="hint">Apreten el Canam para avanzar</p>
+        <img src="canam.png" class="canam-btn" onclick="nextWithDrive(3)">
+    </div>
+
+    <!-- PANTALLAS 4 A 8: Las 5 Cajas de Regalo -->
+    <div class="screen" id="s4">
+        <h2>Un detalle...</h2>
+        <p>Dicen que los mejores regalos vienen en empaques grandes... pero la verdad es que nos dio un poquito de flojera envolverlo bien. ¡A ver qué hay adentro!</p>
+        <div class="box-container"><img src="caja1.png" id="box1" class="gift-box" onclick="nextScreen(4)"></div>
+    </div>
+
+    <div class="screen" id="s5">
+        <h2>¿Otra caja?</h2>
+        <p>Bueno, parece que alguien exageró con las capas de seguridad. El amor es paciente, ¡y sabemos que ustedes también lo son! Falta menos...</p>
+        <div class="box-container"><img src="caja2.png" id="box2" class="gift-box" onclick="nextScreen(5)"></div>
+    </div>
+
+    <div class="screen" id="s6">
+        <h2>¡No desesperen!</h2>
+        <p>¿Es un regalo o una mamushka? Prometemos que no los estamos trolleando de adrede, lo bueno se hace esperar un poquito más.</p>
+        <div class="box-container"><img src="caja3.png" id="box3" class="gift-box" onclick="nextScreen(6)"></div>
+    </div>
+
+    <div class="screen" id="s7">
+        <h2>Casi, casi...</h2>
+        <p>Si el amor de ustedes resiste a abrir todas estas cajas virtuales, definitivamente están listos para superar cualquier obstáculo juntos. ¡Una más!</p>
+        <div class="box-container"><img src="caja4.png" id="box4" class="gift-box" onclick="nextScreen(7)"></div>
+    </div>
+
+    <div class="screen" id="s8">
+        <h2>¡La última!</h2>
+        <p>Ok, esta es la definitiva. Aquí se esconde el verdadero secreto de nuestro cariño hacia ustedes. ¡Ábranla ya!</p>
+        <div class="box-container"><img src="caja5.png" id="box5" class="gift-box" onclick="nextScreen(8)"></div>
+    </div>
+
+    <!-- PANTALLA 9: Regalo Final -->
+    <div class="screen" id="s9">
+        <h2>¡Sorpresa! Les regalamos con mucho amor su primera sesión de fotos! Esperamos les guste, y, nos quedamos atentos a fechas!</h2>
+        <p style="margin-bottom: 15px;">Con todo nuestro cariño para ustedes.</p>
+        <img src="regalo.png" class="final-img" alt="Regalo Final">
+    </div>
+
+    <script>
+        function startMusic() {
+            const music = document.getElementById('bg-music');
+            if (music.paused) {
+                music.play().catch(err => console.log("Audio listo al interactuar."));
+            }
+        }
+
+        function nextScreen(current) {
+            startMusic();
+            document.getElementById(`s${current}`).classList.remove('active');
+            document.getElementById(`s${current + 1}`).classList.add('active');
+        }
+
+        function nextWithDrive(current) {
+            startMusic();
+            const screen = document.getElementById(`s${current}`);
+            const btn = screen.querySelector('.canam-btn');
+            
+            btn.classList.add('drive-out');
+            
+            setTimeout(() => {
+                screen.classList.remove('active');
+                btn.classList.remove('drive-out'); // Reset para futuros usos si aplica
+                document.getElementById(`s${current + 1}`).classList.add('active');
+            }, 800);
+        }
+    </script>
+</body>
+</html>
